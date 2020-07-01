@@ -1,0 +1,44 @@
+# redis数据源
+spring:
+  redis:
+    host: test01
+    database: 1
+    password: eGlud2VpMjAyMA==
+    servlet:
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 100MB
+    port: 6380
+  data:
+    mongodb:
+      host: test01
+      port: 27018
+      username: root
+      password: xinwei2020
+      database: monitor
+      authentication-database: admin
+  #mysql 配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${MYSQL-USER:root}
+      password: ${MYSQL-PWD:123456}
+      url: jdbc:mysql://${MYSQL-HOST:test01}:${MYSQL-PORT:3306}/${MYSQL-DB:amz}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 10000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
