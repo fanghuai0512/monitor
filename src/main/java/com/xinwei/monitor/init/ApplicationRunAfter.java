@@ -54,34 +54,37 @@ public class ApplicationRunAfter implements ApplicationRunner {
             StoreCache.add(store);
         });
 
-        //启动线程池
-        new Thread(new Runnable() {
+        //启动线程池，将商品信息放到缓存中
+       /*  new Thread(new Runnable() {
             @Override
             public void run() {
                 ThreadPoolUtils.startProductToCache();
             }
         }).start();
 
-        //启动线程池
-        new Thread(new Runnable() {
+        //启动线程池，开始监测商品信息
+       new Thread(new Runnable() {
             @Override
             public void run() {
                 ThreadPoolUtils.startMonitorProduct();
             }
         }).start();
 
+        //启动线程池，开始处理监控的商品信息
         new Thread(new Runnable() {
             @Override
             public void run() {
                 ThreadPoolUtils.startManageProduct();
             }
         }).start();
+
+        //将监控的商品信息管理起来
         new Thread(new Runnable() {
             @Override
             public void run() {
                 ThreadPoolUtils.startWalmartProduct();
             }
-        }).start();
+        }).start();*/
 
     }
 }

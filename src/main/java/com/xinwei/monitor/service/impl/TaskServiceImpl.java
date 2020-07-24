@@ -1,8 +1,10 @@
 package com.xinwei.monitor.service.impl;
 
 import com.amazonaws.service.products.model.Product;
+import com.google.common.collect.Lists;
 import com.xinwei.monitor.amazon.AmazonClient;
 import com.xinwei.monitor.cache.ProductCache;
+import com.xinwei.monitor.config.MonitorConfig;
 import com.xinwei.monitor.monogo.AmznProductMonitorRepository;
 import com.xinwei.monitor.po.AmznProduct;
 import com.xinwei.monitor.po.AmznProductMonitor;
@@ -16,6 +18,7 @@ import com.xinwei.monitor.util.BigDecimalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,10 +37,19 @@ public class TaskServiceImpl implements TaskService {
     @Resource private AmznProductMonitorRepository monitorRepository;
     @Resource private AmazonClient amazonClient;
     @Resource private AmznProductService productService;
-    private final AtomicInteger atomicInteger =  new AtomicInteger(1);
+    @Resource private MonitorConfig monitorConfig;
 
+    private AtomicInteger atomicInteger = null ;
+
+    @PostConstruct
+    public void init (){
+        atomicInteger =  new AtomicInteger(monitorConfig.getStartNum());
+    }
     @Override
     public List<AmznProduct> monitorProductToCache() {
+        if(atomicInteger.get() > monitorConfig.getEndNum()){
+            return Lists.newArrayList();
+        }
         List<AmznProduct> monitorList = productService.findMonitorList(atomicInteger.getAndIncrement(), 1000);
         monitorList.stream().forEach(amznProduct -> {
             ProductCache.addMonitorProduct(amznProduct);
@@ -56,9 +68,10 @@ public class TaskServiceImpl implements TaskService {
         ProductCache.addManageProduct(productList);
     }
 
+
     @Override
     public void manageMonitorProduct(List<Product> productList) {
-        productList.stream().forEach(product -> {
+        productList.stream().filter(product-> product != null).forEach(product -> {
             //asin值
             String asin = product.getIdentifiers().getMarketplaceASIN().getASIN();
             //设置商品fba和fbm价格

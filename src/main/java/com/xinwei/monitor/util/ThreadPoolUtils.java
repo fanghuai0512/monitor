@@ -16,7 +16,7 @@ public class ThreadPoolUtils {
 
     public  static void startProductToCache(){
         ScheduledExecutorService  scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleAtFixedRate(new MonitorProductToCacheTask(), 1, 1, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(new MonitorProductToCacheTask(), 1, 1, TimeUnit.SECONDS);
     }
 
     /**

@@ -12,8 +12,15 @@ public class Store {
     @TableId(type = IdType.AUTO)
     private Integer id ;
 
+    /**
+     * 店铺类型
+     * @see {@linkplain com.xinwei.monitor.constant.Constant.StoreType}
+     */
     private Integer type;
 
+    /**
+     * 店铺名称
+     */
     private String name ;
 
     /**
@@ -21,11 +28,23 @@ public class Store {
      */
     private Integer status;
 
+    /**
+     * 客户端id
+     */
     private String clientId;
 
+    /**
+     * 客户端授权码
+     */
     private String clientSecret;
 
+    /**
+     * 管理员id
+     */
     private Integer managerId;
 
+    /**
+     * 管理员姓名
+     */
     private String manager;
 }

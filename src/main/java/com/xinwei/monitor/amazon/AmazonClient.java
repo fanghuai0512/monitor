@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
 import com.xinwei.monitor.config.AmznClientConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -60,14 +61,14 @@ public class AmazonClient {
                 String status = result.getStatus();
                 if (status.equalsIgnoreCase("Success")) {
                     productList.add(result.getProduct());
+                }else {
+                    log.error( ExceptionUtils.getStackTrace(result.getError().getCause()));
                 }
             }
         } catch (InterruptedException e) {
-            productList.add(null);
             log.error(e.getMessage());
         } catch (ExecutionException e) {
-            productList.add(null);
-            log.error(e.getMessage());
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return productList;
     }

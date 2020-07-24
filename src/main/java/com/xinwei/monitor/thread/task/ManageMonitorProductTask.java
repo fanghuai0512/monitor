@@ -5,6 +5,7 @@ import com.xinwei.monitor.cache.ProductCache;
 import com.xinwei.monitor.service.TaskService;
 import com.xinwei.monitor.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ManageMonitorProductTask implements Runnable{
                 taskService.manageMonitorProduct(manageProductList);
             }
         }catch(Exception e){
-            log.error("处理监控商品发生异常："+e.getMessage());
+            log.error("处理监控商品发生异常："+ ExceptionUtils.getStackTrace(e));
         }
     }
 

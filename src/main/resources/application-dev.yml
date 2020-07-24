@@ -2,7 +2,7 @@
 spring:
   redis:
     host: test01
-    database: 1
+    database: 0
     password: eGlud2VpMjAyMA==
     servlet:
       multipart:
